@@ -73,8 +73,8 @@ details.sub .st{font-size:16px}
 .sbar[hidden]{display:none}
 .sbi{max-width:640px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:8px;min-height:44px;font-size:15px}
 .sbi .hl{margin-left:0}.sbi #bart{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pv{position:sticky;top:calc(var(--sb) + env(safe-area-inset-top,0px));z-index:4;background:var(--paper);padding:8px 0 12px}
-canvas{display:block;margin:0 auto 8px;max-width:100%;max-height:34vh;width:auto;height:auto;border:1px solid var(--line)}
+.pv{padding:8px 0 12px}
+canvas{display:block;margin:0 auto 8px;max-width:100%;max-height:72vh;width:auto;height:auto;border:1px solid var(--line)}
 .pv .acts{justify-content:center}
 .elh{display:flex;justify-content:space-between;align-items:center;min-height:48px}
 .el{border-top:1px solid var(--line);padding:0 0 8px}.el:first-of-type{border-top:0}
@@ -278,6 +278,8 @@ button.icon{width:40px;height:40px;min-height:40px;padding:0;display:inline-flex
 <div class="pv"><canvas id="cv" width="1080" height="600"></canvas>
 <div class="acts"><button id="dl">บันทึกรูป PNG</button><button class="ghost" id="sh">แชร์</button></div></div>
 
+<div class="elh" style="margin-top:8px"><span>แสดงผลแบบละเอียดในรูป</span><label class="sw"><input type="checkbox" id="dtl" aria-label="แสดงผลแบบละเอียดในรูป" checked><i></i></label></div>
+<p class="hint" style="margin:0 0 8px">เปิดเพื่อใส่จ่ายรวม % ที่ถูกหรือแพงกว่า ความคุ้มค่า และเงินที่จ่ายเกินลงในแต่ละการ์ด</p>
 <details class="sub" data-k="g1" open style="margin-top:16px">
 <summary><span class="st">หัวเรื่อง วันที่ และท้ายรูป</span></summary>
 <div class="el"><div class="elh"><span>หัวเรื่อง</span><label class="sw"><input type="checkbox" id="tc" aria-label="แสดงหัวเรื่อง" checked><i></i></label></div><div class="ebox" id="tbox"><input id="ttl" value="เปรียบเทียบราคา" aria-label="ข้อความหัวเรื่อง"><div class="ctl"><div class="f full"><label>ขนาด <span id="tszv">100</span>%</label><input id="tsz" type="range" min="50" max="250" value="100"></div><div class="f"><label>จัดแนว</label><select id="tal"><option value="l" selected>ซ้าย</option><option value="c">กลาง</option><option value="r">ขวา</option></select></div><div class="f"><label>ตำแหน่ง</label><select id="tpo"><option value="t" selected>บน</option><option value="b">ล่าง</option></select></div></div></div></div><div class="el"><div class="elh"><span>วันที่</span><label class="sw"><input type="checkbox" id="dc" aria-label="แสดงวันที่" checked><i></i></label></div><div class="ebox" id="dbox"><input id="dt" type="date" aria-label="วันที่"><div class="ctl"><div class="f full"><label>ขนาด <span id="dszv">100</span>%</label><input id="dsz" type="range" min="50" max="250" value="100"></div><div class="f"><label>จัดแนว</label><select id="dal"><option value="l" selected>ซ้าย</option><option value="c">กลาง</option><option value="r">ขวา</option></select></div><div class="f"><label>ตำแหน่ง</label><select id="dpo"><option value="t" selected>บน</option><option value="b">ล่าง</option></select></div></div></div></div><div class="el"><div class="elh"><span>ข้อความท้ายรูป</span><label class="sw"><input type="checkbox" id="fc" aria-label="แสดงข้อความท้ายรูป"><i></i></label></div><div class="ebox" id="fbox" style="display:none"><textarea id="ft" rows="2" placeholder="เช่น ร้านหรือสาขา เงื่อนไขโปรโมชัน" aria-label="ข้อความท้ายรูป"></textarea><div class="ctl"><div class="f full"><label>ขนาด <span id="fszv">100</span>%</label><input id="fsz" type="range" min="50" max="250" value="100"></div><div class="f"><label>จัดแนว</label><select id="fal"><option value="l" selected>ซ้าย</option><option value="c">กลาง</option><option value="r">ขวา</option></select></div><div class="f"><label>ตำแหน่ง</label><select id="fpo"><option value="t">บน</option><option value="b" selected>ล่าง</option></select></div></div></div></div>
@@ -418,14 +420,22 @@ function card(c,cd,x,y,cw,ch,mode,fit,T,f){
   c.font='400 '+s(24)+'px '+FF;var uw=c.measureText(ul).width;mw=Math.max(mw,pw+uw);
   if(paint){c.font=(T.heavy?'700 ':'600 ')+s(50)+'px '+FF;c.fillStyle=col.ac;c.fillText(pr,px,yy);c.font='400 '+s(24)+'px '+FF;c.fillStyle=col.mu;c.fillText(ul,px+pw,yy+s(24))}
   yy+=Math.round(s(50)*1.25);
-  if(showOver){c.font='400 '+s(24)+'px '+FF;if(paint){c.fillStyle=col.mu;c.fillText('แพงกว่า +'+fmt(r.over,0)+'%',px,yy)}yy+=Math.round(s(24)*1.5)}
+  if(cd.detail){
+   var put=function(t,wt,sz,col2){c.font=wt+' '+s(sz)+'px '+FF;wrap(c,t,w).slice(0,2).forEach(function(l){if(paint){c.fillStyle=col2;c.fillText(l,px,yy)}yy+=Math.round(s(sz)*1.4)})};
+   put('จ่ายรวม ฿'+fmt(r.p),'400',24,col.mu);
+   if(cd.multi){
+    put(best?'ถูกกว่าตัวแพงสุด '+fmt(r.sv,1)+'%':'แพงกว่า +'+fmt(r.over,1)+'%','600',24,col.tx);
+    put('ความคุ้มค่า '+fmt(r.pct,0)+'%','400',22,col.mu);
+    var bh2=Math.max(4,s(8));if(paint){c.fillStyle=ov?'rgba(255,255,255,.28)':'rgba(128,128,128,.28)';c.fillRect(px,yy,w,bh2);c.fillStyle=col.ac;c.fillRect(px,yy,Math.max(2,w*r.pct/100),bh2)}yy+=bh2+s(8);
+    if(!best)put('จ่ายเกิน ฿'+fmt(r.extra)+' ในปริมาณเท่านี้','400',22,col.mu)}
+  }else if(showOver){c.font='400 '+s(24)+'px '+FF;if(paint){c.fillStyle=col.mu;c.fillText('แพงกว่า +'+fmt(r.over,0)+'%',px,yy)}yy+=Math.round(s(24)*1.5)}
   if(r.c){c.font='600 '+s(24)+'px '+FF;wrap(c,r.c,w).slice(0,3).forEach(function(l){if(paint){c.fillStyle=col.tx;c.fillText(l,px,yy)}yy+=Math.round(s(24)*1.4)})}
   return{h:yy-y0,w:mw}}
  function fitK(w,hmax){var k=k0;for(var n=0;n<16;n++){var o=run(w,k,false);if(o.h<=hmax&&o.w<=w+1)return k;k*=.92}return k}
  c.fillStyle=(cd.best&&T.best)?(T.glass?hexA(PC.acc,.92):PC.acc):T.cd;rr(c,x,y,cw,ch,rad);c.fill();
  if(ov){
   fitImg(c,r.im,x,y,cw,ch,rad,fit,T.bd);
-  var tw=cw-2*m,k=fitK(tw,ch*.6),o=run(tw,k,false),ph=o.h+2*m;
+  var tw=cw-2*m,k=fitK(tw,ch*(cd.detail?.74:.6)),o=run(tw,k,false),ph=o.h+2*m;
   c.save();rr(c,x,y,cw,ch,rad);c.clip();c.fillStyle='rgba(0,0,0,.62)';c.fillRect(x,y+ch-ph,cw,ph);c.restore();
   run(tw,k,true,x+m,y+ch-ph+m)
  }else{
@@ -455,7 +465,7 @@ function draw(){
  var top=defs.filter(function(d){return d.on&&d.place=='t'}),bot=defs.filter(function(d){return d.on&&d.place=='b'});
  function zh(a){return a.reduce(function(s,d){return s+d.h+10},0)}
  var hh=pad+(top.length?zh(top)+8:0),bh=pad+(bot.length?zh(bot)+8:0);
- var cards=[];groups.forEach(function(g){g.a.forEach(function(r,i){cards.push({r:r,g:g.g,best:i==0&&g.a.length>1,multi:g.a.length>1})})});
+ var cards=[];groups.forEach(function(g){g.a.forEach(function(r,i){cards.push({r:r,g:g.g,best:i==0&&g.a.length>1,multi:g.a.length>1,detail:$('dtl').checked})})});
  var N=cards.length,ach={l:320,r:320,t:640,b:640,o:560}[mode],Ht,ah,cols=1,rows=Math.max(N,1);
  if(!rt){ah=N?N*(ach+gap)-gap:120;Ht=hh+ah+bh}else{Ht=Math.round(Wc*rt);ah=Math.max(160,Ht-hh-bh)}
  if(rt&&N){var tg={l:2.1,r:2.1,t:.85,b:.85,o:1.1}[mode],bsc=1e9;
@@ -474,7 +484,7 @@ function draw(){
 function blob(cb){$('cv').toBlob(cb,'image/png')}
 $('add').onclick=function(){S.items.push(blank());save();build();calc()};
 $('clr').onclick=function(){S.dm={};S.items=[blank(),blank()];S.items.forEach(function(o){o.u=''});save();build();calc()};
-['ttl','ft','dc','dt','th','fs','rt','tc','fc','tp','fit','tsz','tal','tpo','dsz','dal','dpo','fsz','fal','fpo'].forEach(function(i){$(i).oninput=$(i).onchange=draw});
+['ttl','ft','dc','dt','th','fs','rt','tc','fc','tp','fit','tsz','tal','tpo','dsz','dal','dpo','fsz','fal','fpo','dtl'].forEach(function(i){$(i).oninput=$(i).onchange=draw});
 function useDL(){try{return window.claude&&claude.use?claude.use('downloads'):Promise.resolve(null)}catch(e){return Promise.resolve(null)}}
 function doSave(b){var nm='price-compare-'+($('dt').value||'img')+'.png';
  useDL().then(function(d){
@@ -533,7 +543,7 @@ var n=new Date();$('dt').value=n.getFullYear()+'-'+('0'+(n.getMonth()+1)).slice(
  document.addEventListener('keydown',function(e){if(e.key=='Escape'&&!pop.hidden)closeP(true)});
  document.addEventListener('pointerdown',function(e){if(!pop.hidden&&!pop.contains(e.target)&&!thb.contains(e.target))closeP(false)});
  apply(false)})();
-(function(){var K='pc_ui',ids=['rt','tp','fit','th','fs','tc','dc','fc','tsz','tal','tpo','dsz','dal','dpo','fsz','fal','fpo','ttl','ft'];
+(function(){var K='pc_ui',ids=['rt','tp','fit','th','fs','tc','dc','fc','tsz','tal','tpo','dsz','dal','dpo','fsz','fal','fpo','ttl','ft','dtl'];
  function get(id){var e=$(id);return e.type=='checkbox'?e.checked:e.value}
  function set(id,v){var e=$(id);if(e.type=='checkbox')e.checked=!!v;else e.value=v}
  try{var o=JSON.parse(localStorage.getItem(K)||'{}');ids.forEach(function(id){if(id in o)set(id,o[id])})}catch(e){}
