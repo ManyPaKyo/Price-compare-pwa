@@ -237,6 +237,8 @@ button.icon{width:40px;height:40px;min-height:40px;padding:0;display:inline-flex
 [data-style="glass"] main{padding-left:12px;padding-right:12px}
 [data-style="glass"] .st{white-space:nowrap}[data-style="glass"] .ss{max-width:48%}
 [data-style="glass"] .gh{flex-wrap:wrap}[data-style="glass"] .gn,[data-style="glass"] .gu{white-space:nowrap}
+.jump{position:fixed;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);z-index:25;min-height:40px;padding:4px 16px 4px 12px;display:inline-flex;align-items:center;gap:8px;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,.22)}
+.jump[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -250,6 +252,7 @@ button.icon{width:40px;height:40px;min-height:40px;padding:0;display:inline-flex
 <div class="f"><label>สีริบบิน "คุ้มสุด" (รูปแบบป้ายราคา)</label><div class="sws" id="ribs"></div></div>
 <div class="acts"><button class="link" id="thr">คืนค่าธีมเริ่มต้น</button></div>
 </div></div>
+<button class="ghost jump" id="jmp" hidden aria-label="เลื่อนกลับไปที่รูปตัวอย่าง"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 19V6M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>รูปตัวอย่าง</button>
 <div class="sbar" id="bar" hidden><div class="sbi"><span class="hl">คุ้มสุด</span><span id="bart"></span></div></div>
 <main>
 <h1>เปรียบเทียบราคา</h1>
@@ -425,9 +428,9 @@ function card(c,cd,x,y,cw,ch,mode,fit,T,f){
    put('จ่ายรวม ฿'+fmt(r.p),'400',24,col.mu);
    if(cd.multi){
     put(best?'ถูกกว่าตัวแพงสุด '+fmt(r.sv,1)+'%':'แพงกว่า +'+fmt(r.over,1)+'%','600',24,col.tx);
-    put('ความคุ้มค่า '+fmt(r.pct,0)+'%','400',22,col.mu);
+    if(!best){put('ความคุ้มค่า '+fmt(r.pct,0)+'%','400',22,col.mu);
     var bh2=Math.max(4,s(8));if(paint){c.fillStyle=ov?'rgba(255,255,255,.28)':'rgba(128,128,128,.28)';c.fillRect(px,yy,w,bh2);c.fillStyle=col.ac;c.fillRect(px,yy,Math.max(2,w*r.pct/100),bh2)}yy+=bh2+s(8);
-    if(!best)put('จ่ายเกิน ฿'+fmt(r.extra)+' ในปริมาณเท่านี้','400',22,col.mu)}
+    put('จ่ายเกิน ฿'+fmt(r.extra)+' ในปริมาณเท่านี้','400',22,col.mu)}}
   }else if(showOver){c.font='400 '+s(24)+'px '+FF;if(paint){c.fillStyle=col.mu;c.fillText('แพงกว่า +'+fmt(r.over,0)+'%',px,yy)}yy+=Math.round(s(24)*1.5)}
   if(r.c){c.font='600 '+s(24)+'px '+FF;wrap(c,r.c,w).slice(0,3).forEach(function(l){if(paint){c.fillStyle=col.tx;c.fillText(l,px,yy)}yy+=Math.round(s(24)*1.4)})}
   return{h:yy-y0,w:mw}}
@@ -550,6 +553,12 @@ var n=new Date();$('dt').value=n.getFullYear()+'-'+('0'+(n.getMonth()+1)).slice(
  function sv(){var o={};ids.forEach(function(id){o[id]=get(id)});try{localStorage.setItem(K,JSON.stringify(o))}catch(e){}}
  ids.forEach(function(id){$(id).addEventListener('input',sv);$(id).addEventListener('change',sv)});
  $('uir').onclick=function(){try{localStorage.removeItem(K)}catch(e){}location.reload()}})();
+(function(){var j=$('jmp'),pv=document.querySelector('.pv'),t=0;
+ function upd(){t=0;var r=pv.getBoundingClientRect();j.hidden=!(pv.offsetParent!==null&&r.height>0&&r.bottom<48)}
+ addEventListener('scroll',function(){if(!t)t=requestAnimationFrame(upd)},{passive:true});addEventListener('resize',upd);
+ pv.closest('details').addEventListener('toggle',upd);
+ j.onclick=function(){pv.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})};
+ upd()})();
 load();initDetails();build();calc();
 if(document.fonts&&document.fonts.load){Promise.all([400,600,700].map(function(w){return document.fonts.load(w+' 24px "IBM Plex Sans Thai"','ก฿1')})).then(draw,function(){})}
 </script>
