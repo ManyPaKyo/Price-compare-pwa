@@ -27,7 +27,7 @@
 :root[data-theme="dark"]{--paper:#0f1419;--ink:#e8edf2;--mu:#93a0ad;--line:#28323d;color-scheme:dark}
 *{box-sizing:border-box}html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 96px)}
 body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.5 "IBM Plex Sans Thai",system-ui,-apple-system,"Segoe UI",sans-serif}
-main{max-width:640px;margin:0 auto;padding:16px 16px 48px}
+main{max-width:640px;margin:0 auto;padding:16px 16px calc(88px + env(safe-area-inset-bottom,0px))}
 h1{font-size:28px;line-height:1.2;margin:8px 0 4px;font-weight:600}
 .lead{color:var(--mu);font-size:14px;margin:0 0 24px}
 label{display:block;font-size:13px;color:var(--mu)}
@@ -237,8 +237,52 @@ button.icon{width:40px;height:40px;min-height:40px;padding:0;display:inline-flex
 [data-style="glass"] main{padding-left:12px;padding-right:12px}
 [data-style="glass"] .st{white-space:nowrap}[data-style="glass"] .ss{max-width:48%}
 [data-style="glass"] .gh{flex-wrap:wrap}[data-style="glass"] .gn,[data-style="glass"] .gu{white-space:nowrap}
-.jump{position:fixed;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);z-index:25;min-height:40px;padding:4px 16px 4px 12px;display:inline-flex;align-items:center;gap:8px;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,.22)}
+.jump{position:fixed;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 76px);z-index:25;min-height:40px;padding:4px 16px 4px 12px;display:inline-flex;align-items:center;gap:8px;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,.22)}
 .jump[hidden]{display:none}
+
+:root{--dg:#b3261e;--dgt:#ffffff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--dg:#ff8a80;--dgt:#2a0a08}}
+:root[data-theme="dark"]{--dg:#ff8a80;--dgt:#2a0a08}
+.pgoff{display:none!important}
+details.sec>summary{pointer-events:none;cursor:default}details.sec>summary::after{display:none}
+details.sec>summary #clrb{pointer-events:auto}
+.next{width:100%}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;background:var(--paper);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabs button,[data-style] .tabs button{flex:1;max-width:213px;min-height:60px;padding:8px 4px 6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;color:var(--mu);border:0;border-radius:0;box-shadow:none;font-size:13px;font-weight:400}
+[data-style] .tabs button[aria-current="page"]{color:var(--ink);font-weight:600;box-shadow:inset 0 3px 0 var(--hi)}
+[data-style="neu"] .tabs{border-top:0;box-shadow:0 -4px 12px var(--dk)}
+[data-style="tag"] .tabs{background:var(--rail);border-top:2px solid var(--hi)}
+[data-style="tag"] .tabs button{color:#b9c0c8}
+[data-style="tag"] .tabs button[aria-current="page"]{color:#fff}
+[data-style="glass"] .tabs{background:var(--gl2);border-top:1px solid var(--gb)}
+@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){[data-style="glass"] .tabs{-webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%)}}
+.modal{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(10,14,20,.55)}
+.modal[hidden]{display:none}
+.mbox{width:min(360px,100%);background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:20px;box-shadow:0 16px 40px rgba(0,0,0,.35)}
+.mbox h3{margin:0 0 8px;font-size:18px;font-weight:600}.mbox p{margin:0 0 16px;color:var(--mu);font-size:14px}
+.macts{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+[data-style="neu"] .mbox{border:0;border-radius:20px;box-shadow:var(--r)}
+[data-style="tag"] .mbox{background:var(--surf);border:2px solid var(--ink);border-radius:6px}
+[data-style="glass"] .mbox{background:var(--gl2);border:1px solid var(--gb);border-radius:20px}
+[data-style] button.danger{background:transparent;color:var(--dg);border:1.5px solid var(--dg);box-shadow:none;border-radius:10px;min-height:44px;font-weight:600}
+[data-style] button.danger.armed,[data-style] button.danger.fill{background:var(--dg);color:var(--dgt)}
+.step{display:flex;align-items:center;gap:12px;margin-top:4px}
+.step button{width:44px;height:44px;min-height:44px;padding:0;font-size:22px;line-height:1;display:inline-flex;align-items:center;justify-content:center}
+.step output{flex:1;text-align:center;font-weight:600;font-variant-numeric:tabular-nums}
+.step button:disabled{opacity:.35;cursor:default}
+.pbw{position:relative}
+.pdel{position:absolute;top:8px;right:8px;z-index:3}
+.pdel[hidden]{display:none}
+[data-style] button.pdel{height:40px;min-height:40px;padding:0 12px;border-radius:20px;display:inline-flex;align-items:center;gap:6px;background:var(--paper);color:var(--dg);border:1.5px solid var(--dg);box-shadow:0 2px 8px rgba(0,0,0,.28);font-size:14px;font-weight:600}
+[data-style] button.pdel.armed{background:var(--dg);color:var(--dgt)}
+.pdel .lbl{display:none}.pdel.armed .lbl{display:inline}
+.ia{justify-content:space-between;align-items:center;margin-top:4px}
+.ih{display:flex;align-items:center;gap:8px;font-weight:600;margin-bottom:8px}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--ic);flex:none}
+.rn .dot{display:inline-block;width:10px;height:10px;margin-right:8px;vertical-align:middle}
+[data-style] .item,[data-style] .item:first-child{position:relative;border:0;border-radius:10px;margin:0 0 12px;padding:12px 12px 4px 20px;background:color-mix(in srgb,var(--ic,transparent) 10%,transparent)}
+[data-style] .item::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:6px;border-radius:3px;background:var(--ic)}
+[data-style] button.pdel[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -261,22 +305,23 @@ button.icon{width:40px;height:40px;min-height:40px;padding:0;display:inline-flex
 <div class="note" id="ioshint" hidden><span>ติดตั้งบน iPhone: แตะปุ่มแชร์ใน Safari แล้วเลือก "เพิ่มไปยังหน้าจอโฮม"</span><button class="link" id="iosx" aria-label="ปิดคำแนะนำ">ปิด</button></div>
 
 
-<details class="sec" data-k="s1" open>
-<summary><span class="st">สินค้า</span><span class="ss" id="s1s"></span></summary>
+<details class="sec" data-p="1" open>
+<summary><span class="st">ใส่ข้อมูล</span><span class="ss" id="s1s"></span><button class="ghost icon" id="clrb" aria-label="ล้างข้อมูลทั้งหมด" title="ล้างข้อมูลทั้งหมด"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12h10l1-12M9 7V4h6v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></summary>
 <div class="sb">
 <p class="hint">เลือกหน่วยที่รายการแรก รายการอื่นจะตามหมวดเดียวกัน</p>
 <div id="rows"></div>
-<div class="acts" style="margin-top:16px"><button id="add">เพิ่มรายการ</button><button class="ghost" id="clr">ล้างทั้งหมด</button></div>
+<div class="acts" style="margin-top:8px"><button class="ghost" id="add">เพิ่มรายการ</button></div>
+<div class="acts" style="margin-top:16px"><button class="next" data-go="2">ดูรายการเปรียบเทียบ</button></div>
 </div>
 </details>
 
-<details class="sec" data-k="s2" open>
-<summary><span class="st">ผลเปรียบเทียบ</span><span class="ss" id="s2s"></span></summary>
-<div class="sb" id="out"></div>
+<details class="sec" data-p="2" open>
+<summary><span class="st">เปรียบเทียบ</span><span class="ss" id="s2s"></span></summary>
+<div class="sb"><div id="out"></div><div class="acts" style="margin-top:16px"><button class="next" data-go="3">ปรับแต่งรูปก่อนแชร์</button></div></div>
 </details>
 
-<details class="sec" data-k="s3" open>
-<summary><span class="st">รูปสำหรับแชร์</span><span class="ss" id="s3s"></span></summary>
+<details class="sec" data-p="3" open>
+<summary><span class="st">ปรับแต่งรูปก่อนแชร์</span><span class="ss" id="s3s"></span></summary>
 <div class="sb">
 <div class="pv"><canvas id="cv" width="1080" height="600"></canvas>
 <div class="acts"><button id="dl">บันทึกรูป PNG</button><button class="ghost" id="sh">แชร์</button></div></div>
@@ -285,7 +330,7 @@ button.icon{width:40px;height:40px;min-height:40px;padding:0;display:inline-flex
 <p class="hint" style="margin:0 0 8px">เปิดเพื่อใส่จ่ายรวม % ที่ถูกหรือแพงกว่า ความคุ้มค่า และเงินที่จ่ายเกินลงในแต่ละการ์ด</p>
 <details class="sub" data-k="g1" open style="margin-top:16px">
 <summary><span class="st">หัวเรื่อง วันที่ และท้ายรูป</span></summary>
-<div class="el"><div class="elh"><span>หัวเรื่อง</span><label class="sw"><input type="checkbox" id="tc" aria-label="แสดงหัวเรื่อง" checked><i></i></label></div><div class="ebox" id="tbox"><input id="ttl" value="เปรียบเทียบราคา" aria-label="ข้อความหัวเรื่อง"><div class="ctl"><div class="f full"><label>ขนาด <span id="tszv">100</span>%</label><input id="tsz" type="range" min="50" max="250" value="100"></div><div class="f"><label>จัดแนว</label><select id="tal"><option value="l" selected>ซ้าย</option><option value="c">กลาง</option><option value="r">ขวา</option></select></div><div class="f"><label>ตำแหน่ง</label><select id="tpo"><option value="t" selected>บน</option><option value="b">ล่าง</option></select></div></div></div></div><div class="el"><div class="elh"><span>วันที่</span><label class="sw"><input type="checkbox" id="dc" aria-label="แสดงวันที่" checked><i></i></label></div><div class="ebox" id="dbox"><input id="dt" type="date" aria-label="วันที่"><div class="ctl"><div class="f full"><label>ขนาด <span id="dszv">100</span>%</label><input id="dsz" type="range" min="50" max="250" value="100"></div><div class="f"><label>จัดแนว</label><select id="dal"><option value="l" selected>ซ้าย</option><option value="c">กลาง</option><option value="r">ขวา</option></select></div><div class="f"><label>ตำแหน่ง</label><select id="dpo"><option value="t" selected>บน</option><option value="b">ล่าง</option></select></div></div></div></div><div class="el"><div class="elh"><span>ข้อความท้ายรูป</span><label class="sw"><input type="checkbox" id="fc" aria-label="แสดงข้อความท้ายรูป"><i></i></label></div><div class="ebox" id="fbox" style="display:none"><textarea id="ft" rows="2" placeholder="เช่น ร้านหรือสาขา เงื่อนไขโปรโมชัน" aria-label="ข้อความท้ายรูป"></textarea><div class="ctl"><div class="f full"><label>ขนาด <span id="fszv">100</span>%</label><input id="fsz" type="range" min="50" max="250" value="100"></div><div class="f"><label>จัดแนว</label><select id="fal"><option value="l" selected>ซ้าย</option><option value="c">กลาง</option><option value="r">ขวา</option></select></div><div class="f"><label>ตำแหน่ง</label><select id="fpo"><option value="t">บน</option><option value="b" selected>ล่าง</option></select></div></div></div></div>
+<div class="el"><div class="elh"><span>หัวเรื่อง</span><label class="sw"><input type="checkbox" id="tc" aria-label="แสดงหัวเรื่อง" checked><i></i></label></div><div class="ebox" id="tbox"><input id="ttl" value="เปรียบเทียบราคา" aria-label="ข้อความหัวเรื่อง"><div class="ctl"><div class="f full"><label>ขนาด</label><div class="step" data-for="tsz" data-min="50" data-max="250"><button class="ghost" type="button" data-d="-1" aria-label="ลดขนาด">−</button><output><span id="tszv">100</span>%</output><button class="ghost" type="button" data-d="1" aria-label="เพิ่มขนาด">+</button></div><input id="tsz" type="hidden" value="100"></div><div class="f"><label>จัดแนว</label><select id="tal"><option value="l" selected>ซ้าย</option><option value="c">กลาง</option><option value="r">ขวา</option></select></div><div class="f"><label>ตำแหน่ง</label><select id="tpo"><option value="t" selected>บน</option><option value="b">ล่าง</option></select></div></div></div></div><div class="el"><div class="elh"><span>วันที่</span><label class="sw"><input type="checkbox" id="dc" aria-label="แสดงวันที่" checked><i></i></label></div><div class="ebox" id="dbox"><input id="dt" type="date" aria-label="วันที่"><div class="ctl"><div class="f full"><label>ขนาด</label><div class="step" data-for="dsz" data-min="50" data-max="250"><button class="ghost" type="button" data-d="-1" aria-label="ลดขนาด">−</button><output><span id="dszv">100</span>%</output><button class="ghost" type="button" data-d="1" aria-label="เพิ่มขนาด">+</button></div><input id="dsz" type="hidden" value="100"></div><div class="f"><label>จัดแนว</label><select id="dal"><option value="l" selected>ซ้าย</option><option value="c">กลาง</option><option value="r">ขวา</option></select></div><div class="f"><label>ตำแหน่ง</label><select id="dpo"><option value="t" selected>บน</option><option value="b">ล่าง</option></select></div></div></div></div><div class="el"><div class="elh"><span>ข้อความท้ายรูป</span><label class="sw"><input type="checkbox" id="fc" aria-label="แสดงข้อความท้ายรูป"><i></i></label></div><div class="ebox" id="fbox" style="display:none"><textarea id="ft" rows="2" placeholder="เช่น ร้านหรือสาขา เงื่อนไขโปรโมชัน" aria-label="ข้อความท้ายรูป"></textarea><div class="ctl"><div class="f full"><label>ขนาด</label><div class="step" data-for="fsz" data-min="50" data-max="250"><button class="ghost" type="button" data-d="-1" aria-label="ลดขนาด">−</button><output><span id="fszv">100</span>%</output><button class="ghost" type="button" data-d="1" aria-label="เพิ่มขนาด">+</button></div><input id="fsz" type="hidden" value="100"></div><div class="f"><label>จัดแนว</label><select id="fal"><option value="l" selected>ซ้าย</option><option value="c">กลาง</option><option value="r">ขวา</option></select></div><div class="f"><label>ตำแหน่ง</label><select id="fpo"><option value="t">บน</option><option value="b" selected>ล่าง</option></select></div></div></div></div>
 </details>
 
 <details class="sub" data-k="g2" style="border-bottom:1px solid var(--line)">
@@ -295,13 +340,15 @@ button.icon{width:40px;height:40px;min-height:40px;padding:0;display:inline-flex
 <div class="f"><label>ข้อความในการ์ด</label><select id="tp"><option value="r">ขวาของรูป</option><option value="l">ซ้ายของรูป</option><option value="b">ล่างรูป</option><option value="t">บนรูป</option><option value="o" selected>ในรูป</option></select></div>
 <div class="f"><label>การแสดงรูป</label><select id="fit"><option value="cover">เต็มกรอบ (ครอป)</option><option value="contain">เห็นทั้งรูป</option></select></div>
 <div class="f"><label>ธีม</label><select id="th"><option value="l">สว่าง</option><option value="d">มืด</option><option value="p" selected>ป้ายราคา</option><option value="g">กระจก</option><option value="t">น้ำเงิน</option></select></div>
-<div class="f"><label>ตัวอักษรในการ์ด <span id="fsv">100</span>%</label><input id="fs" type="range" min="80" max="130" value="100"></div>
+<div class="f"><label>ตัวอักษรในการ์ด</label><div class="step" data-for="fs" data-min="80" data-max="130"><button class="ghost" type="button" data-d="-1" aria-label="ลดขนาด">−</button><output><span id="fsv">100</span>%</output><button class="ghost" type="button" data-d="1" aria-label="เพิ่มขนาด">+</button></div><input id="fs" type="hidden" value="100"></div>
 <div class="full"><button class="link" id="uir">คืนค่าเริ่มต้นของรูป</button></div>
 </div>
 </details>
 </div>
 </details>
 </main>
+<nav class="tabs" aria-label="หน้าของแอป"><button data-go="1" aria-current="page"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg><span>ใส่ข้อมูล</span></button><button data-go="2"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V10M12 20V4M19 20v-7"/></svg><span>เปรียบเทียบ</span></button><button data-go="3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="M21 16l-5-5-8 9"/></svg><span>รูปแชร์</span></button></nav>
+<div class="modal" id="cfm" role="alertdialog" aria-modal="true" aria-labelledby="cfmt" aria-describedby="cfmd" hidden><div class="mbox"><h3 id="cfmt">ล้างข้อมูลทั้งหมด?</h3><p id="cfmd">รายการสินค้าและรูปทั้งหมดจะถูกลบเพื่อเริ่มคำนวณใหม่ ธีมและตั้งค่ารูปจะยังอยู่ ย้อนกลับไม่ได้</p><div class="macts"><button class="ghost" id="cfmno">ยกเลิก</button><button class="danger fill" id="cfmyes">ล้างทั้งหมด</button></div></div></div>
 <script>
 var U={mg:['mg',0.001,'m'],g:['g',1,'m'],kg:['kg',1000,'m'],ml:['ml',1,'v'],l:['L',1000,'v'],pc:['ชิ้น',1,'c'],dz:['โหล',12,'c'],pk:['แพ็ค',1,'c']};
 var CAT=[['ของแข็ง',['mg','g','kg']],['ของเหลว',['ml','l']],['อื่นๆ',['pc','dz','pk']]];
@@ -330,26 +377,31 @@ document.addEventListener('paste',function(e){var t=e.clipboardData&&e.clipboard
  for(var k=0;k<t.length;k++)if(t[k].type.indexOf('image/')==0){var f=t[k].getAsFile();if(!f)return;e.preventDefault();
   var i=lastIdx;if(i==null||!S.items[i]){i=0;for(var j=0;j<S.items.length;j++)if(!S.items[j].ph){i=j;break}}
   setImg(i,f);return}});
+var IC=['#e8590c','#1c7ed6','#2f9e44','#7048e8','#0c8599','#d6336c','#5c940d','#a0522d'];
+function arm(btn,idle,armed,fn){var t=0;function lab(x){var l=btn.querySelector('.lbl');if(l)l.textContent=x;else btn.textContent=x;btn.setAttribute('aria-label',x)}
+ btn.onclick=function(e){e.preventDefault();if(btn.classList.contains('armed')){clearTimeout(t);btn.classList.remove('armed');lab(idle);fn();return}
+  btn.classList.add('armed');lab(armed);t=setTimeout(function(){btn.classList.remove('armed');lab(idle)},3000)}}
 function build(){
  var h=$('rows');h.innerHTML='';
  S.items.forEach(function(it,i){
-  var d=document.createElement('div');d.className='item';
+  var d=document.createElement('div');d.className='item';d.style.setProperty('--ic',IC[i%IC.length]);
   var c0=cc(),uo=function(k){return '<option value="'+k+'">'+U[k][0]+'</option>'},opts=i==0?(c0==null?'<option value="">เลือกหน่วย</option>':'')+CAT.map(function(c){return '<optgroup label="'+c[0]+'">'+c[1].map(uo).join('')+'</optgroup>'}).join(''):(c0==null?'<option value="">เลือกหน่วย</option>':CAT[c0][1].map(uo).join(''));
-  d.innerHTML='<div class="f"><label>ชื่อสินค้า</label><input data-f="n" placeholder="ชื่อหรือยี่ห้อ"></div>'+
+  d.innerHTML='<div class="ih"><span class="dot" aria-hidden="true"></span><span>รายการที่ '+(i+1)+'</span></div>'+
+  '<div class="f"><label>ชื่อสินค้า</label><input data-f="n" placeholder="ชื่อหรือยี่ห้อ"></div>'+
   '<div class="g2f"><div class="f"><label>ราคา (บาท)</label><input data-f="p" type="number" inputmode="decimal" min="0"></div>'+
   '<div class="f"><label>ปริมาณที่ได้</label><input data-f="q" type="number" inputmode="decimal" min="0"></div>'+
   '<div class="f"><label>หน่วย</label><select data-f="u">'+opts+'</select></div>'+
   (it.u=='pk'?'<div class="f"><label>จำนวนชิ้นในแพ็ค</label><input data-f="k" type="number" inputmode="numeric" min="1"></div>':'')+'</div>'+
   '<div class="f"><label>ข้อความเพิ่มเติมบนรูป</label><input data-f="c" placeholder="เช่น โปร 1 แถม 1"></div>'+
-  '<label class="pb"><img alt="" hidden><span class="pt">แตะเพื่อเพิ่มรูป</span><input type="file" accept="image/*"></label>'+
+  '<div class="pbw"><label class="pb"><img alt="" hidden><span class="pt">แตะเพื่อเพิ่มรูป</span><input type="file" accept="image/*"></label><button class="pdel" hidden aria-label="ลบรูป"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12h10l1-12M9 7V4h6v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="lbl">ลบรูป</span></button></div>'+
   '<div class="pz" contenteditable="true" data-ph="แตะค้างที่นี่ แล้วเลือก วาง (Paste)" hidden></div>'+
-  '<div class="acts"><button class="link pzb">วางรูปที่คัดลอกไว้</button><button class="link rm" hidden>ลบรูป</button><button class="link rmitem">ลบรายการ</button></div>';
+  '<div class="acts ia"><button class="link pzb">วางรูปที่คัดลอกไว้</button><button class="danger rmitem">ลบรายการนี้</button></div>';
   d.querySelectorAll('[data-f]').forEach(function(e){var f=e.dataset.f;e.value=it[f];if(f=='u'&&i>0&&c0==null)e.disabled=true;
    e.oninput=e.onchange=function(){it[f]=e.value;
     if(f=='u'){if(i==0&&e.value){var nc=catOf(e.value);S.items.forEach(function(o,j){if(j>0&&(!U[o.u]||catOf(o.u)!=nc))o.u=e.value})}
      if(e.value=='pk'&&!(parseFloat(it.k)>0))it.k=1;build()}
     save();calc()}});
-  var im=d.querySelector('.pb img'),pk=d.querySelector('.pt'),rm=d.querySelector('.rm'),fi=d.querySelector('input[type=file]');
+  var im=d.querySelector('.pb img'),pk=d.querySelector('.pt'),rm=d.querySelector('.pdel'),fi=d.querySelector('input[type=file]');
   function sync(){im.hidden=rm.hidden=!it.ph;if(it.ph)im.src=it.ph;pk.textContent=it.ph?'แตะเพื่อเปลี่ยนรูป':'แตะเพื่อเพิ่มรูป'}
   sync();
   fi.onchange=function(){var f=fi.files[0];if(f)setImg(i,f)};
@@ -360,8 +412,8 @@ function build(){
   ['pointerdown','focusin'].forEach(function(ev){d.addEventListener(ev,function(){lastIdx=i})});
   pb.ondragover=function(e){e.preventDefault()};
   pb.ondrop=function(e){e.preventDefault();var f=e.dataTransfer&&e.dataTransfer.files[0];if(f&&/^image\//.test(f.type))setImg(i,f)};
-  rm.onclick=function(e){e.preventDefault();it.ph='';it._im=null;sync();save();calc()};
-  d.querySelector('.rmitem').onclick=function(){S.items.splice(i,1);if(!S.items.length)S.items.push(blank());save();build();calc()};
+  arm(rm,'ลบรูป','แตะอีกครั้งเพื่อลบรูป',function(){it.ph='';it._im=null;sync();save();calc()});
+  arm(d.querySelector('.rmitem'),'ลบรายการนี้','แตะอีกครั้งเพื่อลบ',function(){S.items.splice(i,1);if(!S.items.length)S.items.push(blank());save();build();calc()});
   h.appendChild(d)});
 }
 function calc(){
@@ -370,7 +422,7 @@ function calc(){
   var p=parseFloat(it.p),q=parseFloat(it.q);
   if(!(p>0&&q>0)||!U[it.u])return;
   var u=U[it.u],g=u[2],amt=q*(it.u=='pk'?(parseFloat(it.k)||1):1)*u[1];
-  (by[g]=by[g]||[]).push({n:it.n||('รายการที่ '+(i+1)),c:it.c,im:it._im,p:p,amt:amt,uf:u[1]})});
+  (by[g]=by[g]||[]).push({n:it.n||('รายการที่ '+(i+1)),ci:i,c:it.c,im:it._im,p:p,amt:amt,uf:u[1]})});
  Object.keys(by).forEach(function(g){
   cur[g]=S.dm[g]&&DL[g][S.disp[g]]?S.disp[g]:Math.min.apply(null,by[g].map(function(r){return r.uf}));by[g].forEach(function(r){r.unit=r.p/r.amt*cur[g]});
   var a=by[g].sort(function(x,y){return x.unit-y.unit}),mn=a[0].unit,mx=a[a.length-1].unit,b=cur[g];
@@ -387,7 +439,7 @@ function calc(){
   if(gr.a.length<2){var w=document.createElement('p');w.className='mu';w.textContent='เพิ่มอีกรายการในหมวดเดียวกันเพื่อเปรียบเทียบ';o.appendChild(w)}
   gr.a.forEach(function(r,i){
    var d=document.createElement('div'),multi=gr.a.length>1,best=i==0&&multi;d.className='res'+(best?' best':'');
-   var s='<div class="r1"><span class="rn">'+esc(r.n)+(best?'<span class="hl">คุ้มสุด</span>':'')+'</span><span class="rp"><b>฿'+fp(r.unit)+'</b> /'+DL[g][cur[g]]+'</span></div>'+
+   var s='<div class="r1"><span class="rn"><span class="dot" style="background:'+IC[r.ci%IC.length]+'"></span>'+esc(r.n)+(best?'<span class="hl">คุ้มสุด</span>':'')+'</span><span class="rp"><b>฿'+fp(r.unit)+'</b> /'+DL[g][cur[g]]+'</span></div>'+
    '<div class="r2"><span>จ่ายรวม ฿'+fmt(r.p)+'</span>'+(multi?(best?'<span class="pos">ถูกกว่าตัวแพงสุด '+fmt(r.sv,1)+'%</span>':'<span class="neg">แพงกว่า +'+fmt(r.over,1)+'%</span>'):'')+'</div>';
    if(multi)s+='<div class="bar2"><i style="width:'+Math.max(3,r.pct)+'%"></i></div><div class="r3">ความคุ้มค่า '+fmt(r.pct,0)+'%'+(best?'':' จ่ายเกิน ฿'+fmt(r.extra)+' ในปริมาณเท่านี้')+'</div>';
    d.innerHTML=s;o.appendChild(d)})});
@@ -486,7 +538,6 @@ function draw(){
 }
 function blob(cb){$('cv').toBlob(cb,'image/png')}
 $('add').onclick=function(){S.items.push(blank());save();build();calc()};
-$('clr').onclick=function(){S.dm={};S.items=[blank(),blank()];S.items.forEach(function(o){o.u=''});save();build();calc()};
 ['ttl','ft','dc','dt','th','fs','rt','tc','fc','tp','fit','tsz','tal','tpo','dsz','dal','dpo','fsz','fal','fpo','dtl'].forEach(function(i){$(i).oninput=$(i).onchange=draw});
 function useDL(){try{return window.claude&&claude.use?claude.use('downloads'):Promise.resolve(null)}catch(e){return Promise.resolve(null)}}
 function doSave(b){var nm='price-compare-'+($('dt').value||'img')+'.png';
@@ -553,6 +604,26 @@ var n=new Date();$('dt').value=n.getFullYear()+'-'+('0'+(n.getMonth()+1)).slice(
  function sv(){var o={};ids.forEach(function(id){o[id]=get(id)});try{localStorage.setItem(K,JSON.stringify(o))}catch(e){}}
  ids.forEach(function(id){$(id).addEventListener('input',sv);$(id).addEventListener('change',sv)});
  $('uir').onclick=function(){try{localStorage.removeItem(K)}catch(e){}location.reload()}})();
+(function(){
+ var secs=[1,2,3].map(function(n){return document.querySelector('details.sec[data-p="'+n+'"]')}),tabs=document.querySelectorAll('.tabs button');
+ function go(n){secs.forEach(function(s,i){s.classList.toggle('pgoff',i+1!==n)});
+  tabs.forEach(function(b){if(+b.dataset.go===n)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
+  window.scrollTo(0,0);window.dispatchEvent(new Event('scroll'))}
+ window.pcGo=go;
+ document.querySelectorAll('[data-go]').forEach(function(b){b.addEventListener('click',function(){go(+b.dataset.go)})});
+ secs.forEach(function(s){s.open=true;var sm=s.querySelector('summary');sm.tabIndex=-1;sm.addEventListener('click',function(e){e.preventDefault()})});
+ go(1);
+ var cfm=$('cfm'),no=$('cfmno'),yes=$('cfmyes'),last=null;
+ function openM(){last=document.activeElement;cfm.hidden=false;no.focus()}
+ function closeM(){cfm.hidden=true;if(last&&last.focus)last.focus()}
+ $('clrb').onclick=openM;no.onclick=closeM;
+ cfm.addEventListener('pointerdown',function(e){if(e.target===cfm)closeM()});
+ document.addEventListener('keydown',function(e){if(cfm.hidden)return;if(e.key=='Escape')closeM();else if(e.key=='Tab'){var f=[no,yes],i=f.indexOf(document.activeElement);e.preventDefault();f[(i+(e.shiftKey?-1:1)+2)%2].focus()}});
+ yes.onclick=function(){S.dm={};S.disp={};S.items=[blank(),blank()];S.items.forEach(function(o){o.u=''});save();build();calc();closeM();go(1)};
+ document.querySelectorAll('.step').forEach(function(st){var id=st.dataset.for,mn=+st.dataset.min,mx=+st.dataset.max,hid=document.getElementById(id),bs=st.querySelectorAll('button');
+  function show(){var v=+hid.value;bs[0].disabled=v<=mn;bs[1].disabled=v>=mx}
+  bs.forEach(function(b){b.onclick=function(){var v=Math.round((+hid.value||100)/10)*10+(+b.dataset.d)*10;v=Math.max(mn,Math.min(mx,v));hid.value=v;hid.dispatchEvent(new Event('input'));hid.dispatchEvent(new Event('change'));show()}});show()});
+})();
 (function(){var j=$('jmp'),pv=document.querySelector('.pv'),t=0;
  function upd(){t=0;var r=pv.getBoundingClientRect();j.hidden=!(pv.offsetParent!==null&&r.height>0&&r.bottom<48)}
  addEventListener('scroll',function(){if(!t)t=requestAnimationFrame(upd)},{passive:true});addEventListener('resize',upd);
